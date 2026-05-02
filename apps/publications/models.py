@@ -49,7 +49,7 @@ class Favorite(models.Model):
         ]
 
 
-class Rating(models.Model):
+class PublicationRating(models.Model):
     score = models.PositiveIntegerField(
         validators=[
             MinValueValidator(1),
@@ -78,16 +78,38 @@ class Rating(models.Model):
 
 
 class Comment(models.Model):
-    comment = models.TextField(null=True, blank=True)
+    comment = models.TextField()
     user = models.ForeignKey(
         User,
-        on_delete=models.PROTECT,
-        related_name='commentators'
+        on_delete=models.SET_NULL,
+        related_name='commentators',
+        null=True
     )
     publication = models.ForeignKey(
         Publication,
-        on_delete=models.PROTECT,
-        related_name='commented_publications'
+        on_delete=models.CASCADE,
+        related_name='commented'
+    )
+    parent = models.ForeignKey(
+        'self',
+        on_delete=models.CASCADE,
+        related_name='replies',
+        null=True
     )
     created_at = models.DateTimeField(auto_now_add=True,null=True, blank=True)
 
+
+class CommentLike(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        related_name='commentlikers',
+        null=True
+    )
+    comment = models.ForeignKey(
+        Comment,
+        on_delete=models.CASCADE,
+        related_name='liked_comments',
+    )
+    liked = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True,null=True, blank=True)
