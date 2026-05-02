@@ -91,10 +91,3 @@ class Comment(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True,null=True, blank=True)
 
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(
-                fields=['comment','user'],
-                name='unique_comment_user'
-            )
-        ]
