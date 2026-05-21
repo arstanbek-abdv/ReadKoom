@@ -24,7 +24,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         return value 
     
     def create(self,validated_data):
-        password = validated_data.pop('password') # we pop out the password 
+        password = validated_data.pop('password') # we pop the password out 
         user = User(**validated_data) # we instantiate the user with the remaining fields 
         user.set_password(password) # we turn the raw password into hash and save it to user object along with other fields 
         user.save() # we write the object to DB 

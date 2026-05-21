@@ -5,5 +5,3 @@ from apps.users.users_serializers import RegisterSerializer
 
 class RegisterView (CreateAPIView):
     serializer_class = RegisterSerializer
-
-    
