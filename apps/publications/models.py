@@ -26,6 +26,14 @@ class Publication (models.Model):
     created_at = models.DateTimeField(auto_now_add=True,null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['file_key'],
+                name='file_key'
+            )
+        ]
+
 
 class Favorite(models.Model):
     user = models.ForeignKey(
