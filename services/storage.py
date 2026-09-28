@@ -20,10 +20,9 @@ s3 = boto3.client(
     config = Config(signature_version = 's3v4')
 )
 
-def generate_file_key(filename: str, user_id: int) -> str:
-    ext = filename.split('.')[-1]
+def generate_file_key(filetype: str, user_id: int) -> str:
     unique_id = uuid.uuid4().hex
-    return f"uploads/{user_id}/{unique_id}.{ext}"
+    return f"publications/{user_id}/{unique_id}.{filetype}"
 
 
 def presigned_upload_url(file_key: str, content_type: str) -> str:
