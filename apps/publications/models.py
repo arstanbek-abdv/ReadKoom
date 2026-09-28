@@ -6,7 +6,7 @@ from apps.users.models import User
 class Publication (models.Model):
     title = models.CharField(max_length=128)
     description = models.TextField(null=True,blank=True)
-    langauge = models.CharField(max_length=20)
+    language = models.CharField(max_length=20)
     # R2 reference 
     file_key = models.CharField(max_length=512)
     file_name = models.CharField(max_length=255)        
