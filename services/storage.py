@@ -1,11 +1,12 @@
 from datetime import timedelta
 from dotenv import load_dotenv
+from botocore.config import Config
 import uuid
 import boto3
 import os 
 
 from config.settings import (
-    AWS_S3_ENDPOINT_URL,
+    AWS_S3_REGION_NAME,
     AWS_ACCESS_KEY_ID,
     AWS_SECRET_ACCESS_KEY,
     AWS_STORAGE_BUCKET_NAME,
@@ -13,9 +14,10 @@ from config.settings import (
 
 s3 = boto3.client(
     's3',
-    endpoint_url=AWS_S3_ENDPOINT_URL,
-    aws_access_key_id=AWS_ACCESS_KEY_ID,
-    aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+    aws_s3_region_name = AWS_S3_REGION_NAME,
+    aws_access_key_id = AWS_ACCESS_KEY_ID,
+    aws_secret_access_key = AWS_SECRET_ACCESS_KEY,
+    config = Config(signature_version = 's3v4')
 )
 
 def generate_file_key(filename: str, user_id: int) -> str:
