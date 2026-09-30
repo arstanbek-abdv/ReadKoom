@@ -6,12 +6,12 @@ from apps.users.models import User
 class Publication(models.Model):
     title = models.CharField(max_length=128)
     description = models.TextField(null=True,blank=True)
-    language = models.CharField(max_length=20)
+    language = models.CharField(max_length=20,null=True,blank=True)
     # R2 reference 
     file_key = models.CharField(max_length=512)
     file_name = models.CharField(max_length=255)        
-    file_size = models.PositiveBigIntegerField()     
-    mime_type = models.CharField(max_length=127)       
+    file_size = models.PositiveBigIntegerField(null=True,blank=True)     
+    mime_type = models.CharField(max_length=127,null=True,blank=True)       
     user = models.ForeignKey(
         User,
         on_delete=models.PROTECT,
