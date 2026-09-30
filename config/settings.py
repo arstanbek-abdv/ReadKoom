@@ -124,6 +124,9 @@ AWS_S3_FILE_OVERWRITE = False  # don't overwrite files with same name
 AWS_DEFAULT_ACL = None        
 AWS_QUERYSTRING_EXPIRE = 3600
 
+UPLOAD_EXPIRES = 900
+DOWNLOAD_EXPIRES = 1800
+MAX_UPLOAD_BYTES = 1024 ** 3
 
 STORAGES = {
     "default": {                             # user-uploaded media (FileField/ImageField)

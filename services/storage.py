@@ -12,7 +12,7 @@ from config.settings import (
     AWS_STORAGE_BUCKET_NAME,
 )
 
-s3 = boto3.client(
+s3_client = boto3.client(
     's3',
     aws_s3_region_name = AWS_S3_REGION_NAME,
     aws_access_key_id = AWS_ACCESS_KEY_ID,
@@ -20,24 +20,19 @@ s3 = boto3.client(
     config = Config(signature_version = 's3v4')
 )
 
-def generate_file_key(filetype: str, user_id: int) -> str:
-    unique_id = uuid.uuid4().hex
-    return f"publications/{user_id}/{unique_id}.{filetype}"
+def generate_file_key(user_id: int) -> str:
+    file_key = uuid.uuid4().hex
+    return f"publications/{user_id}/{file_key}"
 
 
-def presigned_upload_url(file_key: str, content_type: str) -> str:
-    return s3.generate_presigned_url(
-        ClientMethod='put_object',
-        Params={
-            'Bucket': AWS_STORAGE_BUCKET_NAME,
-            'Key': file_key,
-            'ContentType': content_type,
-        },
-        ExpiresIn=3600  # 1 hour
+def upload_url(file_key: str) -> str:
+    return s3_client.generate_presigned_post(
+        Bucket = AWS_STORAGE_BUCKET_NAME,
+        Key = file_key
     )
 
-def presigned_download_url(file_key: str) -> str:
-    return s3.get_presigned_url(
+def download_url(file_key: str) -> str:
+    return s3_client.get_presigned_url(
         ClientMethod='get_object',
         Params={
             'Bucket': AWS_STORAGE_BUCKET_NAME,
