@@ -6,22 +6,32 @@ from apps.users.models import User
 class Publication(models.Model):
     title = models.CharField(max_length=128)
     description = models.TextField(null=True,blank=True)
-    language = models.CharField(max_length=20,null=True,blank=True)
-    # R2 reference 
-    file_key = models.CharField(max_length=512)
-    file_name = models.CharField(max_length=255)        
-    file_size = models.PositiveBigIntegerField(null=True,blank=True)     
-    mime_type = models.CharField(max_length=127,null=True,blank=True)       
     user = models.ForeignKey(
         User,
         on_delete=models.PROTECT,
         related_name='post_owner'
     )
     is_published = models.BooleanField(default=False)
-    # Status — important for presigned URL flow
+    created_at = models.DateTimeField(auto_now_add=True,null=True, blank=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+class File(models.Model):
+    publication = models.OneToOneField(
+        Publication, 
+        on_delete=models.CASCADE,
+        related_name='file'
+    )
+    file_key = models.CharField(max_length=512)
+    file_name = models.CharField(max_length=255)        
+    file_size = models.PositiveBigIntegerField(null=True,blank=True)     
+    mime_type = models.CharField(max_length=127,null=True,blank=True)
     upload_status = models.CharField(
         max_length=20,
-        choices=[('pending', 'Pending'), ('completed', 'Completed'), ('failed', 'Failed')],
+        choices=[('pending', 'Pending'), 
+            ('completed', 'Completed'), 
+            ('failed', 'Failed')
+            ],
         default='pending'
     )
     created_at = models.DateTimeField(auto_now_add=True,null=True, blank=True)
@@ -35,12 +45,11 @@ class Publication(models.Model):
             )
         ]
 
-
 class Favorite(models.Model):
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='favorited_by'
+        related_name='favorites'
     )
     favorite_publication = models.ForeignKey(
         Publication,
