@@ -1,23 +1,25 @@
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
-from apps.publications.models import Publication
+from apps.publications.models import File
 
 class UploadFileSerializer(ModelSerializer):
     
     class Meta:
-        model = Publication
+        model = File
         fields = [
-            'title',
-            'description',
             'file_name',
             'file_key',
-            'user',
+            'file_mime',
+            'publication',
+            'upload_status'
             'created_at',
             'updated_at'
         ]
         read_only_fields = [
             'file_key',
-            'user',
+            'file_mime',
+            'upload_status'
             'created_at',
             'updated_at'
         ]
+    

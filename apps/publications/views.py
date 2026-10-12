@@ -1,6 +1,7 @@
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.generics import CreateAPIView
+from rest_framework import generics
+from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 
 from apps.users.models import User
@@ -9,7 +10,8 @@ from apps.publications.models import Publication
 
 from services.storage import generate_file_key, upload_url
 
-class UploadFile(CreateAPIView):
+
+class UploadFile(generics.CreateAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = UploadFileSerializer
 
@@ -18,10 +20,7 @@ class UploadFile(CreateAPIView):
         file_key = generate_file_key(request.user)
         upload_link = upload_url(file_key)
         serializer.is_valid(raise_exception=True)
-        serializer.save(
-            user = request.user,
-            file_key = file_key
-        )
+        serializer.save(file_key = file_key)
         return Response(
             {
                 'upload_url': upload_link
