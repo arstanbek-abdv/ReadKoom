@@ -23,21 +23,22 @@ s3_client = boto3.client(
     config = Config(signature_version = 's3v4')
 )
 
-def generate_file_key(user_id: int) -> str:
+def generate_file_key(username) -> str:
     file_key = uuid.uuid4().hex
-    return f"publications/{user_id}/{file_key}"
+    return f"publications/{username}/{file_key}"
 
 
-def upload_url(file_key: str) -> str:
+def upload_url(file_key: str, mime_type: str) -> str:
     return s3_client.generate_presigned_post(
         Bucket = AWS_STORAGE_BUCKET_NAME,
         Key = file_key,
         Conditions = [
             ["content-length-range", 1, MAX_UPLOAD_BYTES],
-            ["starts-with", "$Content-Type", ""]
+            {'Content-Type': mime_type}
         ],
         ExpiresIn = UPLOAD_EXPIRES
     )
+
 
 def download_url(file_key: str, mime_type: str, file_name: str) -> str:
     return s3_client.generate_presigned_url(

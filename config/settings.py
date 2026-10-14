@@ -126,7 +126,29 @@ AWS_QUERYSTRING_EXPIRE = 3600
 
 UPLOAD_EXPIRES = 900
 DOWNLOAD_EXPIRES = 1800
-MAX_UPLOAD_BYTES = 1024 ** 3
+MAX_UPLOAD_BYTES = 100 * 1000 ** 2 # 100MB
+
+ALLOWED_MIME_TYPE = {
+    # images
+    "image/png",
+    "image/jpeg",
+    "image/webp",
+    "image/gif",
+    
+    # documents
+    "application/pdf",
+    "text/plain",
+    "text/csv",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",   # .docx
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",         # .xlsx
+    "application/vnd.openxmlformats-officedocument.presentationml.presentation", # .pptx
+    
+    # audio
+    "audio/mpeg",
+    "audio/wav",
+    "audio/ogg",
+    "audio/mp4",
+}
 
 STORAGES = {
     "default": {                             # user-uploaded media (FileField/ImageField)

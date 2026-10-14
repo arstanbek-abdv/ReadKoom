@@ -6,10 +6,10 @@ from apps.users.models import User
 class Publication(models.Model):
     title = models.CharField(max_length=128)
     description = models.TextField(null=True,blank=True)
-    user = models.ForeignKey(
+    author = models.ForeignKey(
         User,
         on_delete=models.PROTECT,
-        related_name='post_owner'
+        related_name='author'
     )
     is_published = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True,null=True, blank=True)
