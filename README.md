@@ -32,7 +32,7 @@ ReadKoom is meant to replace that pile of chats with a small social library. Fil
 | Email verification, async password recovery | **Planned** |
 | Publish feed, follow/unfollow APIs | **Planned** |
 | Download API, comments / ratings / favorites APIs | **Planned** |
-| Cloudflare R2 (S3-compatible) as primary store | **Planned** (code talks to S3 today) |
+| Amazon S3 for object storage | **Done** |
 | Docker Compose, tests, load numbers | **Planned** |
 | Frontend | **Not started** |
 
@@ -45,13 +45,13 @@ flowchart LR
   Client -->|JWT JSON| API[Django API]
   API --> PG[(PostgreSQL)]
   API --> Redis[(Redis)]
-  API -->|presign| ObjectStore[R2 / S3]
+  API -->|presign| ObjectStore[AWS S3]
   Redis --> Celery[Celery workers]
   Celery -->|inspect object| ObjectStore
   Celery --> PG
 ```
 
-**Today in this repo:** Django + PostgreSQL + boto3 against S3. Redis, Celery, R2, and Compose are not wired yet. The upload path below already matches how the API is written; worker inspection is still to land.
+**Today in this repo:** Django + PostgreSQL + boto3 against Amazon S3. Redis, Celery, and Compose are not wired yet. The upload path below already matches how the API is written; worker inspection is still to land.
 
 ### Presigned upload flow
 
@@ -95,7 +95,7 @@ Upload policy today: `content-length-range` 1…`MAX_UPLOAD_BYTES`, matching `Co
 | API | Django 6, Django REST Framework |
 | Auth | JWT (`djangorestframework-simplejwt`) + blacklist |
 | Database | PostgreSQL |
-| Object storage | S3 API (`boto3`, `django-storages`); R2 is the intended host |
+| Object storage | Amazon S3 (`boto3`, `django-storages`) |
 | Jobs (planned) | Celery + Redis |
 | File type (planned) | `python-magic` (libmagic) |
 | Phone | `django-phonenumber-field` |
@@ -260,7 +260,7 @@ curl -X POST http://127.0.0.1:8000/publications/drafts/1/attachments/ \
   -d '{"file_name":"notes.pdf"}'
 ```
 
-Then POST the returned S3/R2 `url` + `fields` and the file as `multipart/form-data`. The API never sees the bytes.
+Then POST the returned S3 `url` + `fields` and the file as `multipart/form-data`. The API never sees the bytes.
 
 ## Setup and running
 

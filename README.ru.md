@@ -32,7 +32,7 @@ ReadKoom должен заменить эту кучу чатов небольш
 | Подтверждение email, асинхронное восстановление пароля | **Запланировано** |
 | Лента опубликованного, API подписок | **Запланировано** |
 | API скачивания, комментариев / оценок / избранного | **Запланировано** |
-| Cloudflare R2 (S3-совместимый) как основное хранилище | **Запланировано** (сейчас код говорит с S3) |
+| Amazon S3 для объектного хранилища | **Готово** |
 | Docker Compose, тесты, цифры нагрузки | **Запланировано** |
 | Фронтенд | **Не начат** |
 
@@ -45,13 +45,13 @@ flowchart LR
   Client -->|JWT JSON| API[Django API]
   API --> PG[(PostgreSQL)]
   API --> Redis[(Redis)]
-  API -->|presign| ObjectStore[R2 / S3]
+  API -->|presign| ObjectStore[AWS S3]
   Redis --> Celery[Celery workers]
   Celery -->|inspect object| ObjectStore
   Celery --> PG
 ```
 
-**Сейчас в репозитории:** Django + PostgreSQL + boto3 к S3. Redis, Celery, R2 и Compose ещё не подключены. Цепочка загрузки ниже уже соответствует API; проверка воркером ещё впереди.
+**Сейчас в репозитории:** Django + PostgreSQL + boto3 к Amazon S3. Redis, Celery и Compose ещё не подключены. Цепочка загрузки ниже уже соответствует API; проверка воркером ещё впереди.
 
 ### Поток presigned-загрузки
 
@@ -95,7 +95,7 @@ sequenceDiagram
 | API | Django 6, Django REST Framework |
 | Авторизация | JWT (`djangorestframework-simplejwt`) + blacklist |
 | База | PostgreSQL |
-| Объектное хранилище | S3 API (`boto3`, `django-storages`); целевой хост — R2 |
+| Объектное хранилище | Amazon S3 (`boto3`, `django-storages`) |
 | Задачи (план) | Celery + Redis |
 | Тип файла (план) | `python-magic` (libmagic) |
 | Телефон | `django-phonenumber-field` |
@@ -260,7 +260,7 @@ curl -X POST http://127.0.0.1:8000/publications/drafts/1/attachments/ \
   -d '{"file_name":"notes.pdf"}'
 ```
 
-Дальше POST на возвращённые `url` + `fields` S3/R2 и файл как `multipart/form-data`. API байты не видит.
+Дальше POST на возвращённые `url` + `fields` S3 и файл как `multipart/form-data`. API байты не видит.
 
 ## Запуск
 
