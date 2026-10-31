@@ -6,15 +6,15 @@ English | [Русский](README.ru.md)
 
 A backend API for students to share study materials — notes, slides, PDFs, images, audio — without dumping them into group chats.
 
-> **Status:** active early backend. Auth, drafts, and presigned uploads work. Workers, verification, social APIs, and Docker are in progress, not abandoned.
+> **Status:** In progress. Auth, drafts, and presigned uploads work. Workers, verification, social APIs, and Docker are in progress, not abandoned.
 
 ## Problem
 
-University courses still share files through WhatsApp and Telegram groups: links rot, versions collide, and nothing is searchable.
+University courses still share files through WhatsApp and Telegram groups: links expire, and nothing is searchable.
 
-ReadKoom is meant to replace that pile of chats with a small social library. Files live in object storage (the cloud), not in someone’s phone. Registration and JWT login are a few requests. Anyone with an account can create a draft and upload. Metadata (title, description, author) makes materials findable later — follow, save, comment, and rate come next.
+ReadKoom is meant to replace that pile of chats with a small social library. Files live in object storage (the cloud), not in someone’s phone. Registration and login via JWT. Anyone with an account can create a draft and upload. Metadata (title, description, author) makes materials findable later — follow, save, comment, and rate come next.
 
-**Target users:** students and TAs who already live in group chats and need a durable place for lecture notes and homework files — not a general-purpose cloud drive.
+**Target users:** students and TAs who already live in group chats and need a durable place for lecture notes and homework files.
 
 ## Project status and roadmap
 
