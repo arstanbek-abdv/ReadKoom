@@ -312,9 +312,6 @@ python manage.py test
 
 **Load tests:** not run. This section should get **real numbers** (p50/p95 latency, upload success rate, worker lag) after a k6/Locust pass — not estimates.
 
-## Demo
-
-Not published yet. Add a short GIF of draft → presign → S3 PUT, screenshots of API responses, or a live URL.
 
 ## License
 
