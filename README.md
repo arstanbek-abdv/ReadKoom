@@ -320,10 +320,5 @@ Not published yet. Add a short GIF of draft → presign → S3 PUT, screenshots 
 
 TBD. All rights reserved until a license is chosen.
 
-## Contact
-
-TBD — name, email, LinkedIn / GitHub.
-
----
 
 ReadKoom = **Read** + **Koom** (community).
