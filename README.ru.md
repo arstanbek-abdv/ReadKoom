@@ -320,10 +320,5 @@ python manage.py test
 
 TBD. Все права защищены, пока лицензия не выбрана.
 
-## Контакты
-
-TBD — имя, email, LinkedIn / GitHub.
-
----
 
 ReadKoom = **Read** + **Koom** (сообщество).
